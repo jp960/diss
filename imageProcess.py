@@ -12,8 +12,9 @@ detector = cv2.ximgproc.createStructuredEdgeDetection('model.yml')
 detector.detectEdges(org_img_norm, structured_edges)
 
 output_img_norm = cv2.normalize(structured_edges, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-output_img_norm_inverted = cv2.bitwise_not(output_img_norm)
-new_seg = cv2.cvtColor(seg_img, cv2.COLOR_BGR2GRAY)
+
+
+l';zlc';xlc;zxlcnew_seg = cv2.cvtColor(seg_img, cv2.COLOR_BGR2GRAY)
 
 # # Output dtype = cv2.CV_8U
 line_sobel = cv2.Sobel(org_img, cv2.CV_8U, 1, 0, ksize=3)
@@ -23,6 +24,11 @@ overlap_sobel = cv2.addWeighted(seg_img, 0.3, line_sobel_inverted, 0.7, 0)
 
 edges = np.zeros((480, 640, 3), dtype=np.float32)
 edges = cv2.Canny(org_img, 100, 200, edges)
+
+
+
+
+
 edges_inverted = cv2.bitwise_not(edges)
 overlap_canny = cv2.addWeighted(new_seg, 0.3, edges_inverted, 0.7, 0)
 overlap_canny_add_output = cv2.addWeighted(edges_inverted, 0.3, output_img_norm_inverted, 0.7, 0)
