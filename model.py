@@ -71,7 +71,6 @@ class pix2pix(object):
                                         name='real_A_and_B_images')
 
         self.real_depth = self.real_data[:, :, :, :self.input_c_dim]
-        self.real_depth = tf.Print ("lajfa;s", self.real_depth)
         self.real_preprocessed = self.real_data[:, :, :, self.input_c_dim:self.input_c_dim + self.output_c_dim]
         self.pre_processed = self.real_data[:, :, :]
         self.depth = self.real_data[:, :, :]
