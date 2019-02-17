@@ -126,12 +126,13 @@ class pix2pix(object):
         for epoch in xrange(args.epoch):
             # data = glob('./datasets/{}/train/*.jpg'.format(self.dataset_name))  # CHANGE
             data_pre = sorted(glob('/home/janhavi/Documents/diss/practise/preprocessed/*.png'))
-            data_depth = sorted(glob('/home/janhavi/Documents/diss/practise/depth/*.png'))
+            data_depth = sorted(glob('/home/janhavi/Documents/diss/practise/depths/*.png'))
             data = list(zip(data_pre, data_depth))
             #np.random.shuffle(data)
             batch_idxs = min(len(data), args.train_size) // self.batch_size
             print("*"*40)
-            print(len(data))
+            print(len(data_pre))
+            print(len(data_depth))
             print(args.train_size)
             print(self.batch_size)
             for idx in xrange(0, batch_idxs):
