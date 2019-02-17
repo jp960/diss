@@ -75,8 +75,8 @@ class pix2pix(object):
         print("image size " + str(self.image_size))
         print("*" * 40)
 
-        self.real_preprocessed = self.real_data[:, :256, :, :]
-        self.real_depth = self.real_data[:, 256:, :, :]
+        self.real_preprocessed = self.real_data[:, :256, :]
+        self.real_depth = self.real_data[:, 256:, :]
 
         self.g_loss = tf.nn.l2_loss(self.real_depth - self.generator(self.real_preprocessed))
 
