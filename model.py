@@ -148,7 +148,7 @@ class pix2pix(object):
                 else:
                     batch_images = np.array(batch).astype(np.float32)
 
-                batch_images = batch_images.reshape((1449, 512, 256, 1))
+                batch_images = batch_images.reshape((4194304, 512, 256, 1))
                 print(batch_images.shape)
 
                 # Update G network
