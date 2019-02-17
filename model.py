@@ -123,7 +123,6 @@ class pix2pix(object):
             print(" [*] Load SUCCESS")
         else:
             print(" [!] Load failed...")
-        print("here")
         print(args.epoch)
         for epoch in xrange(args.epoch):
             # data = glob('./datasets/{}/train/*.jpg'.format(self.dataset_name))  # CHANGE
@@ -133,6 +132,7 @@ class pix2pix(object):
             #np.random.shuffle(data)
             batch_idxs = min(len(data), args.train_size) // self.batch_size
 
+            print("here")
             for idx in xrange(0, batch_idxs):
                 batch_files = data[idx*self.batch_size:(idx+1)*self.batch_size]
                 batch = [load_data(batch_file[0], batch_file[1]) for batch_file in batch_files]
@@ -156,7 +156,7 @@ class pix2pix(object):
 
                 counter += 1
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, g_loss: %.8f" \
-                    % (epoch, idx, batch_idxs, time.time() - start_time, errG))
+                      % (epoch, idx, batch_idxs, time.time() - start_time, errG))
 
                 if np.mod(counter, 100) == 1:
                     self.sample_model(args.sample_dir, epoch, idx)
