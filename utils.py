@@ -21,7 +21,7 @@ get_stddev = lambda x, k_h, k_w: 1/math.sqrt(k_w*k_h*x.get_shape()[-1])
 def load_data(image_path, depth_image_path, flip=True, is_test=False):
     img_A = load_image(image_path)
     img_B = load_image(depth_image_path)
-    img_AB = np.concatenate((img_A, img_B), axis=2)
+    img_AB = np.concatenate((img_A, img_B), axis=0)
     return img_AB
 
 
@@ -41,9 +41,9 @@ def save_images(images, size, image_path):
     return imsave(inverse_transform(images), size, image_path)
 
 
-def imread(path, is_grayscale = False):
+def imread(path, is_grayscale = True):
     if (is_grayscale):
-        return scipy.misc.imread(path, flatten = True).astype(np.float)
+        return scipy.misc.imread(path, flatten=True).astype(np.float)
     else:
         return scipy.misc.imread(path).astype(np.float)
 

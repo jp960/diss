@@ -119,10 +119,11 @@ class pix2pix(object):
         counter = 1
         start_time = time.time()
 
-        if self.load(self.checkpoint_dir):
-            print(" [*] Load SUCCESS")
-        else:
-            print(" [!] Load failed...")
+        # if self.load(self.checkpoint_dir):
+        #     print(" [*] Load SUCCESS")
+        # else:
+        #     print(" [!] Load failed...")
+
         for epoch in xrange(args.epoch):
             # data = glob('./datasets/{}/train/*.jpg'.format(self.dataset_name))  # CHANGE
             data_pre = sorted(glob('/home/janhavi/Documents/diss/practise/preprocessed/*.png'))
