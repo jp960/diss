@@ -67,7 +67,7 @@ class pix2pix(object):
 
     def build_model(self):
         self.real_data = tf.placeholder(tf.float32,
-                                        [self.batch_size, 2, self.image_size, self.image_size],
+                                        [self.batch_size, self.image_size, self.image_size],
                                         name='real_A_and_B_images')
         print("*" * 40)
         print(self.real_data)
