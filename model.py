@@ -130,12 +130,12 @@ class pix2pix(object):
             data = list(zip(data_pre, data_depth))
             #np.random.shuffle(data)
             batch_idxs = min(len(data), args.train_size) // self.batch_size
-            # print("*"*40)
-            # print(len(data))
-            # print(args.train_size)
-            # print(self.batch_size)
+            print("*"*40)
+            print(len(data))
+            print(args.train_size)
+            print(self.batch_size)
             for idx in xrange(0, batch_idxs):
-                # print("here")
+                print("here")
                 batch_files = data[idx*self.batch_size:(idx+1)*self.batch_size]
                 batch = [load_data(batch_file[0], batch_file[1]) for batch_file in batch_files]
                 if (self.is_grayscale):
