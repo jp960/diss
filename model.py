@@ -73,10 +73,9 @@ class pix2pix(object):
         print(self.real_data)
         print("batch size " + str(self.batch_size))
         print("image size " + str(self.image_size))
-        print("input dim " + str(self.input_c_dim))
-        print("output " + str(self.output_c_dim))
-        print(self.real_data[:, :, :, ])
-        print(self.real_data[:, :, :, self.input_c_dim:self.input_c_dim + self.output_c_dim])
+        self.sketch, self.depth = self.real_data[:, :, :, ]
+        print(self.sketch.shape)
+        print(self.depth.shape)
         print("*" * 40)
 
         self.real_depth = self.real_data[:, :, :, :self.input_c_dim]
