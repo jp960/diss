@@ -157,6 +157,7 @@ class pix2pix(object):
                     batch_images = np.array(batch).astype(np.float32)
 
                 print(batch_images.shape)
+                print(batch_images[0].shape)
 
                 # Update G network
                 # _, summary_str = self.sess.run([g_optim, self.g_sum],
