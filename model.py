@@ -144,7 +144,7 @@ class pix2pix(object):
                 batch_files = data[idx*self.batch_size:(idx+1)*self.batch_size]
                 batch = [load_data(batch_file[0], batch_file[1]) for batch_file in batch_files]
                 if (self.is_grayscale):
-                    batch_images = np.array(batch).astype(np.float32)[:, :, :, :]
+                    batch_images = np.array(batch).astype(np.float32)[:, :, :, None]
                 else:
                     batch_images = np.array(batch).astype(np.float32)
 
