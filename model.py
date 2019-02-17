@@ -14,7 +14,7 @@ class pix2pix(object):
     def __init__(self, sess, image_size=256,
                  batch_size=1, sample_size=1, output_size=256,
                  gf_dim=64, df_dim=64, L1_lambda=100,
-                 input_c_dim=3, output_c_dim=3, dataset_name='facades',
+                 input_c_dim=1, output_c_dim=1, dataset_name='facades',
                  checkpoint_dir=None, sample_dir=None):
         """
 
@@ -67,7 +67,7 @@ class pix2pix(object):
 
     def build_model(self):
         self.real_data = tf.placeholder(tf.float32,
-                                        [self.batch_size, self.image_size, self.image_size,
+                                        [self.batch_size, 2, self.image_size, self.image_size,
                                          self.input_c_dim + self.output_c_dim],
                                         name='real_A_and_B_images')
         print("*" * 40)
