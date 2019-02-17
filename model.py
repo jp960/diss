@@ -40,6 +40,9 @@ class pix2pix(object):
         self.output_c_dim = output_c_dim
 
         self.L1_lambda = L1_lambda
+        self.d_bn1 = batch_norm(name='d_bn1')
+        self.d_bn2 = batch_norm(name='d_bn2')
+        self.d_bn3 = batch_norm(name='d_bn3')
 
         self.g_bn_e2 = batch_norm(name='g_bn_e2')
         self.g_bn_e3 = batch_norm(name='g_bn_e3')
@@ -49,21 +52,31 @@ class pix2pix(object):
         self.g_bn_e7 = batch_norm(name='g_bn_e7')
         self.g_bn_e8 = batch_norm(name='g_bn_e8')
 
+        self.g_bn_d1 = batch_norm(name='g_bn_d1')
+        self.g_bn_d2 = batch_norm(name='g_bn_d2')
+        self.g_bn_d3 = batch_norm(name='g_bn_d3')
+        self.g_bn_d4 = batch_norm(name='g_bn_d4')
+        self.g_bn_d5 = batch_norm(name='g_bn_d5')
+        self.g_bn_d6 = batch_norm(name='g_bn_d6')
+        self.g_bn_d7 = batch_norm(name='g_bn_d7')
+
         self.dataset_name = dataset_name
         self.checkpoint_dir = checkpoint_dir
         self.build_model()
 
     def build_model(self):
         self.real_data = tf.placeholder(tf.float32,
-                                        [self.batch_size, (self.image_size, self.image_size), self.image_size,
+                                        [self.batch_size, self.image_size, self.image_size,
                                          self.input_c_dim + self.output_c_dim],
                                         name='real_A_and_B_images')
 
-        self.real_B = self.real_data[:, :, :, :self.input_c_dim]
-        self.real_A = self.real_data[:, :, :, self.input_c_dim:self.input_c_dim + self.output_c_dim]
-        self.pre_processed, self.depth = self.real_data[:, :, :]
+        self.real_depth = self.real_data[:, :, :, :self.input_c_dim]
+        self.real_depth = tf.Print ("lajfa;s", self.real_depth)
+        self.real_preprocessed = self.real_data[:, :, :, self.input_c_dim:self.input_c_dim + self.output_c_dim]
+        self.pre_processed = self.real_data[:, :, :]
+        self.depth = self.real_data[:, :, :]
 
-        self.g_loss = tf.nn.l2_loss(self.depth - self.generator(self.pre_processed))
+        self.g_loss = tf.nn.l2_loss(self.real_depth - self.generator(self.real_preprocessed))
 
         t_vars = tf.trainable_variables()
 
@@ -72,7 +85,7 @@ class pix2pix(object):
         self.saver = tf.train.Saver()
 
     def load_random_samples(self):
-        data = np.random.choice(glob('/home/janhavi/PycharmProjects/diss/NYU/preprocessed/*.png'), self.batch_size)
+        data = np.random.choice(glob('/home/janhavi/PycharmProjects/diss/practise/preprocessed/*.png'), self.batch_size)
         sample = [load_data(sample_file) for sample_file in data]
 
         if self.is_grayscale:
@@ -112,9 +125,9 @@ class pix2pix(object):
 
         for epoch in xrange(args.epoch):
             # data = glob('./datasets/{}/train/*.jpg'.format(self.dataset_name))  # CHANGE
-            data_pre = sorted(glob('/home/janhavi/PycharmProjects/diss/NYU/preprocessed/*.png'))
-            data_ny = sorted(glob('/home/janhavi/PycharmProjects/diss/NYU/depth/*.png'))
-            data = list(zip(data_pre, data_ny))
+            data_pre = sorted(glob('/home/janhavi/PycharmProjects/diss/practise/preprocessed/*.png'))
+            data_depth = sorted(glob('/home/janhavi/PycharmProjects/diss/practise/depth/*.png'))
+            data = list(zip(data_pre, data_depth))
             #np.random.shuffle(data)
             batch_idxs = min(len(data), args.train_size) // self.batch_size
 

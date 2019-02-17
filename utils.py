@@ -21,7 +21,8 @@ get_stddev = lambda x, k_h, k_w: 1/math.sqrt(k_w*k_h*x.get_shape()[-1])
 def load_data(image_path, depth_image_path, flip=True, is_test=False):
     img_A = load_image(image_path)
     img_B = load_image(depth_image_path)
-    return img_A, img_B
+    img_AB = np.concatenate((img_A, img_B), axis=2)
+    return img_AB
 
 
 def load_image(image_path):
