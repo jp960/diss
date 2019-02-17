@@ -83,7 +83,7 @@ class pix2pix(object):
 
         self.saver = tf.train.Saver()
 
-        tf.Print(self.real_depth, [self.real_depth],"Hello Janhavi")
+        self.real_depth = tf.Print(self.real_depth, [self.real_depth],"Hello Janhavi")
 
     def load_random_samples(self):
         data = np.random.choice(glob('/home/janhavi/PycharmProjects/diss/practise/preprocessed/*.png'), self.batch_size)
