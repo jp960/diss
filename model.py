@@ -131,7 +131,9 @@ class pix2pix(object):
             #np.random.shuffle(data)
             batch_idxs = min(len(data), args.train_size) // self.batch_size
 
-            print(batch_idxs)
+            print(len(data))
+            print(args.train_size)
+            print(self.batch_size)
             for idx in xrange(0, batch_idxs):
                 print("here")
                 batch_files = data[idx*self.batch_size:(idx+1)*self.batch_size]
