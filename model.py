@@ -67,7 +67,7 @@ class pix2pix(object):
 
     def build_model(self):
         self.real_data = tf.placeholder(tf.float32,
-                                        [self.batch_size, self.image_size*2, self.image_size],
+                                        [self.batch_size, self.image_size*2, self.image_size, 1],
                                         name='real_A_and_B_images')
         print("*" * 40)
         print(self.real_data)
@@ -75,8 +75,8 @@ class pix2pix(object):
         print("image size " + str(self.image_size))
         print("*" * 40)
 
-        self.real_preprocessed = self.real_data[:, :256, :]
-        self.real_depth = self.real_data[:, 256:, :]
+        self.real_preprocessed = self.real_data[:, :256, :, :]
+        self.real_depth = self.real_data[:, 256:, :, :]
 
         self.g_loss = tf.nn.l2_loss(self.real_depth - self.generator(self.real_preprocessed))
 
