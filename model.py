@@ -63,6 +63,7 @@ class pix2pix(object):
         self.dataset_name = dataset_name
         self.checkpoint_dir = checkpoint_dir
         self.build_model()
+        print("end build")
 
     def build_model(self):
         self.real_data = tf.placeholder(tf.float32,
