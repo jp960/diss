@@ -83,6 +83,8 @@ class pix2pix(object):
 
         self.saver = tf.train.Saver()
 
+        tf.Print(self.real_depth, [self.real_depth],"Hello Janhavi")
+
     def load_random_samples(self):
         data = np.random.choice(glob('/home/janhavi/PycharmProjects/diss/practise/preprocessed/*.png'), self.batch_size)
         sample = [load_data(sample_file) for sample_file in data]
@@ -117,11 +119,11 @@ class pix2pix(object):
         counter = 1
         start_time = time.time()
 
-        # if self.load(self.checkpoint_dir):
-        #     print(" [*] Load SUCCESS")
-        # else:
-        #     print(" [!] Load failed...")
-
+        if self.load(self.checkpoint_dir):
+            print(" [*] Load SUCCESS")
+        else:
+            print(" [!] Load failed...")
+        print("here")
         for epoch in xrange(args.epoch):
             # data = glob('./datasets/{}/train/*.jpg'.format(self.dataset_name))  # CHANGE
             data_pre = sorted(glob('/home/janhavi/PycharmProjects/diss/practise/preprocessed/*.png'))
@@ -331,7 +333,6 @@ class pix2pix(object):
 
         model_dir = "%s_%s_%s" % (self.dataset_name, self.batch_size, self.output_size)
         checkpoint_dir = os.path.join(checkpoint_dir, model_dir)
-        print(checkpoint_dir)
 
         ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
 
