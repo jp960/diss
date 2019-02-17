@@ -328,10 +328,10 @@ class pix2pix(object):
 
     def load(self, checkpoint_dir):
         print(" [*] Reading checkpoint...")
-        print(checkpoint_dir)
 
         model_dir = "%s_%s_%s" % (self.dataset_name, self.batch_size, self.output_size)
         checkpoint_dir = os.path.join(checkpoint_dir, model_dir)
+        print(checkpoint_dir)
 
         ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
 
