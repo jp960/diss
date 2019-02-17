@@ -123,7 +123,6 @@ class pix2pix(object):
             print(" [*] Load SUCCESS")
         else:
             print(" [!] Load failed...")
-        print(args.epoch)
         for epoch in xrange(args.epoch):
             # data = glob('./datasets/{}/train/*.jpg'.format(self.dataset_name))  # CHANGE
             data_pre = sorted(glob('/home/janhavi/PycharmProjects/diss/practise/preprocessed/*.png'))
@@ -132,8 +131,9 @@ class pix2pix(object):
             #np.random.shuffle(data)
             batch_idxs = min(len(data), args.train_size) // self.batch_size
 
-            print("here")
+            print(batch_idxs)
             for idx in xrange(0, batch_idxs):
+                print("here")
                 batch_files = data[idx*self.batch_size:(idx+1)*self.batch_size]
                 batch = [load_data(batch_file[0], batch_file[1]) for batch_file in batch_files]
                 if (self.is_grayscale):
