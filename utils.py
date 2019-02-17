@@ -23,6 +23,7 @@ def load_data(image_path, depth_image_path, flip=True, is_test=False):
     img_A = load_image(image_path)
     img_B = load_image(depth_image_path)
     img_AB = np.concatenate((img_A, img_B), axis=0)
+    print(img_AB.shape)
     return img_AB
 
 
