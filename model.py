@@ -28,7 +28,7 @@ class pix2pix(object):
             output_c_dim: (optional) Dimension of output image color. For grayscale input, set to 1. [3]
         """
         self.sess = sess
-        self.is_grayscale = 0
+        self.is_grayscale = 1
         self.batch_size = batch_size
         self.image_size = image_size
         self.sample_size = sample_size
