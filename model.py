@@ -124,6 +124,7 @@ class pix2pix(object):
         else:
             print(" [!] Load failed...")
         print("here")
+        print(args.epoch)
         for epoch in xrange(args.epoch):
             # data = glob('./datasets/{}/train/*.jpg'.format(self.dataset_name))  # CHANGE
             data_pre = sorted(glob('/home/janhavi/PycharmProjects/diss/practise/preprocessed/*.png'))
