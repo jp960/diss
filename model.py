@@ -146,15 +146,15 @@ class pix2pix(object):
                     batch_images = np.array(batch).astype(np.float32)
 
                 # Update G network
-                _, summary_str = self.sess.run([g_optim, self.g_sum],
-                                               feed_dict={self.real_data: batch_images})
-                print(self.real_data)
-                self.writer.add_summary(summary_str, counter)
+                # _, summary_str = self.sess.run([g_optim, self.g_sum],
+                #                                feed_dict={self.real_data: batch_images})
+                # print(self.real_data)
+                # self.writer.add_summary(summary_str, counter)
 
                 # Run g_optim twice to make sure that d_loss does not go to zero (different from paper)
-                _, summary_str = self.sess.run([g_optim, self.g_sum],
-                                               feed_dict={self.real_data: batch_images})
-                self.writer.add_summary(summary_str, counter)
+                # _, summary_str = self.sess.run([g_optim, self.g_sum],
+                #                                feed_dict={self.real_data: batch_images})
+                # self.writer.add_summary(summary_str, counter)
 
                 errG = self.g_loss.eval({self.real_data: batch_images})
 
