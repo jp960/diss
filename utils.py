@@ -24,7 +24,7 @@ def load_data(image_path, depth_image_path, flip=True, is_test=False):
     print(img_A.shape)
     img_B = load_image(depth_image_path)
     img_AB = np.concatenate((img_A, img_B), axis=0)
-    img_AB.reshape((512, 256, 1))
+    # img_AB.reshape((512, 256, 1))
     return img_AB
 
 
