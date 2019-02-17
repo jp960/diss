@@ -130,7 +130,7 @@ class pix2pix(object):
             data = list(zip(data_pre, data_depth))
             #np.random.shuffle(data)
             batch_idxs = min(len(data), args.train_size) // self.batch_size
-
+            print("*"*40)
             print(len(data))
             print(args.train_size)
             print(self.batch_size)
