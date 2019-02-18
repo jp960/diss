@@ -63,17 +63,16 @@ class pix2pix(object):
         self.dataset_name = dataset_name
         self.checkpoint_dir = checkpoint_dir
         self.build_model()
-        print("end build")
 
     def build_model(self):
         self.real_data = tf.placeholder(tf.float32,
                                         [self.batch_size, self.image_size*2, self.image_size, 1],
                                         name='real_A_and_B_images')
-        print("*" * 40)
-        print(self.real_data)
-        print("batch size " + str(self.batch_size))
-        print("image size " + str(self.image_size))
-        print("*" * 40)
+        # print("*" * 40)
+        # print(self.real_data)
+        # print("batch size " + str(self.batch_size))
+        # print("image size " + str(self.image_size))
+        # print("*" * 40)
 
         self.real_preprocessed = self.real_data[:, :256, :, :]
         self.real_depth = self.real_data[:, 256:, :, :]
@@ -376,7 +375,7 @@ class pix2pix(object):
         sample_images = [sample_images[i:i+self.batch_size]
                          for i in xrange(0, len(sample_images), self.batch_size)]
         sample_images = np.array(sample_images)
-        print(sample_images.shape)
+        # print(sample_images.shape)
 
         start_time = time.time()
         if self.load(self.checkpoint_dir):
