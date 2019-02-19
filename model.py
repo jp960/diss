@@ -97,6 +97,7 @@ class pix2pix(object):
             sample_images = np.array(sample).astype(np.float32)[:, :, :, None]
         else:
             sample_images = np.array(sample).astype(np.float32)
+        print(sample_images.shape)
         return sample_images
 
     def sample_model(self, sample_dir, epoch, idx):
@@ -141,9 +142,6 @@ class pix2pix(object):
                 else:
                     batch_images = np.array(batch).astype(np.float32)
 
-                # batch_images = batch_images.reshape((4194304, 512, 256, 1))
-                # print(batch_images.shape)
-
                 # Update G network
                 # _, summary_str = self.sess.run([g_optim, self.g_sum],
                 #                                feed_dict={self.real_data: batch_images})
@@ -161,7 +159,7 @@ class pix2pix(object):
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, g_loss: %.8f" \
                       % (epoch, idx, batch_idxs, time.time() - start_time, errG))
 
-                if np.mod(counter, 100) == 1:
+                if np.mod(counter, 5) == 1:
                     self.sample_model(args.sample_dir, epoch, idx)
 
                 if np.mod(counter, 500) == 2:
