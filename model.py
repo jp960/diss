@@ -103,10 +103,7 @@ class pix2pix(object):
     def sample_model(self, sample_dir, epoch, idx):
         sample_images = self.load_random_samples()
         print(sample_images.shape)
-        samples, g_loss = self.sess.run(
-            [self.g_loss],
-            feed_dict={self.real_data: sample_images}
-        )
+        samples, g_loss = self.sess.run([self.g_loss], feed_dict={self.real_data: sample_images})
         save_images(samples, [self.batch_size, 1],
                     '/home/janhavi/Documents/diss/train/output/train_{:02d}_{:04d}.png'.format(sample_dir, epoch, idx))
         print("[Sample] g_loss: {:.8f}".format(g_loss))
