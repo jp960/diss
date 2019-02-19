@@ -91,7 +91,7 @@ class pix2pix(object):
         preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/NYU/preprocessed/*.png'), self.batch_size)
         depth_data = [path.replace('preprocessed', 'depth') for path in preprocessed_data]
         data = list(zip(preprocessed_data, depth_data))
-        sample = [load_data(sample_file) for sample_file in data]
+        sample = [load_data(sample_file[0], sample_file[1]) for sample_file in data]
 
         if self.is_grayscale:
             sample_images = np.array(sample).astype(np.float32)[:, :, :, None]
