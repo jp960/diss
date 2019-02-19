@@ -88,7 +88,9 @@ class pix2pix(object):
         self.real_depth = tf.Print(self.real_depth, [self.real_depth],"Hello Janhavi")
 
     def load_random_samples(self):
-        data = np.random.choice(glob('/home/janhavi/PycharmProjects/diss/NYU/preprocessed/*.png'), self.batch_size)
+        preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/NYU/preprocessed/*.png'), self.batch_size)
+        depth_data = [path.replace('preprocessed', 'depth') for path in preprocessed_data]
+        data = list(zip(preprocessed_data, depth_data))
         sample = [load_data(sample_file) for sample_file in data]
 
         if self.is_grayscale:
@@ -104,7 +106,7 @@ class pix2pix(object):
             feed_dict={self.real_data: sample_images}
         )
         save_images(samples, [self.batch_size, 1],
-                    '/home/janhavi/PycharmProjects/diss/train/output/train_{:02d}_{:04d}.png'.format(sample_dir, epoch, idx))
+                    '/home/janhavi/Documents/diss/train/output/train_{:02d}_{:04d}.png'.format(sample_dir, epoch, idx))
         print("[Sample] g_loss: {:.8f}".format(g_loss))
 
     def train(self, args):
@@ -127,17 +129,10 @@ class pix2pix(object):
             print(" [!] Load failed...")
 
         for epoch in xrange(args.epoch):
-            # data = glob('./datasets/{}/train/*.jpg'.format(self.dataset_name))  # CHANGE
             data_pre = sorted(glob('/home/janhavi/Documents/diss/NYU/preprocessed/*.png'))
             data_depth = sorted(glob('/home/janhavi/Documents/diss/NYU/depths/*.png'))
             data = list(zip(data_pre, data_depth))
-            #np.random.shuffle(data)
             batch_idxs = min(len(data), args.train_size) // self.batch_size
-            # print("*"*40)
-            # print(len(data_pre))
-            # print(len(data_depth))
-            # print(args.train_size)
-            # print(self.batch_size)
             for idx in xrange(0, batch_idxs):
                 batch_files = data[idx*self.batch_size:(idx+1)*self.batch_size]
                 batch = [load_data(batch_file[0], batch_file[1]) for batch_file in batch_files]
