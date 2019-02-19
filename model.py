@@ -89,7 +89,7 @@ class pix2pix(object):
 
     def load_random_samples(self):
         preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/NYU/preprocessed/*.png'), self.batch_size)
-        depth_data = [path.replace('preprocessed', 'depth') for path in preprocessed_data]
+        depth_data = [path.replace('preprocessed', 'depths') for path in preprocessed_data]
         data = list(zip(preprocessed_data, depth_data))
         sample = [load_data(sample_file[0], sample_file[1]) for sample_file in data]
 
