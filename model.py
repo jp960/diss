@@ -88,7 +88,7 @@ class pix2pix(object):
         self.real_depth = tf.Print(self.real_depth, [self.real_depth],"Hello Janhavi")
 
     def load_random_samples(self):
-        data = np.random.choice(glob('/home/janhavi/PycharmProjects/diss/practise/preprocessed/*.png'), self.batch_size)
+        data = np.random.choice(glob('/home/janhavi/PycharmProjects/diss/NYU/preprocessed/*.png'), self.batch_size)
         sample = [load_data(sample_file) for sample_file in data]
 
         if self.is_grayscale:
