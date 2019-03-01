@@ -131,6 +131,7 @@ class pix2pix(object):
             data_depth = sorted(glob('/home/janhavi/Documents/diss/practise/depths/*.png'))
             data = list(zip(data_pre, data_depth))
             batch_idxs = min(len(data), args.train_size) // self.batch_size
+            print(batch_idxs)
             for idx in xrange(0, batch_idxs):
                 batch_files = data[idx*self.batch_size:(idx+1)*self.batch_size]
                 batch = [load_data(batch_file[0], batch_file[1]) for batch_file in batch_files]
