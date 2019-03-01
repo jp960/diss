@@ -104,7 +104,7 @@ class pix2pix(object):
             feed_dict={self.real_data: sample_images}
         )
         save_images(samples, [self.batch_size, 1],
-                    '/home/janhavi/Documents/diss/train/output/train_{:02d}_{:04d}.png'.format(sample_dir, epoch, idx))
+                    '/home/janhavi/Documents/diss/train/output/train_{0}_{1}.png'.format(epoch, idx))
         print("[Sample] g_loss: {:.8f}".format(g_loss))
 
     def train(self, args):
