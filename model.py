@@ -74,7 +74,7 @@ class pix2pix(object):
 
         self.output = self.generator(self.real_preprocessed)
 
-        self.g_loss = tf.nn.l2_loss(self.real_depth - self.output)
+        self.g_loss = tf.reduce_mean(tf.nn.l2_loss(self.real_depth - self.output))
 
         t_vars = tf.trainable_variables()
 
