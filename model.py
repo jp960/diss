@@ -75,7 +75,7 @@ class pix2pix(object):
         self.output = self.generator(self.real_preprocessed)
 
         self.g_loss = tf.reduce_mean(tf.nn.l2_loss(self.real_depth - self.output))
-
+        # self.g_loss
         t_vars = tf.trainable_variables()
 
         self.g_vars = [var for var in t_vars if 'g_' in var.name]
@@ -141,8 +141,8 @@ class pix2pix(object):
                     batch_images = np.array(batch).astype(np.float32)
 
                 # Update G network
-                # _, summary_str = self.sess.run([g_optim, self.g_sum],
-                #                                feed_dict={self.real_data: batch_images})
+                _, errG = self.sess.run([g_optim, self.g_loss],
+                                                feed_dict={self.real_data: batch_images})
                 # print(self.real_data)
                 # self.writer.add_summary(summary_str, counter)
 
@@ -151,7 +151,7 @@ class pix2pix(object):
                 #                                feed_dict={self.real_data: batch_images})
                 # self.writer.add_summary(summary_str, counter)
 
-                errG = self.g_loss.eval({self.real_data: batch_images})
+                # errG = self.g_loss.eval({self.real_data: batch_images})
 
                 counter += 1
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, g_loss: %.8f" \
