@@ -25,8 +25,6 @@ def load_data(image_path, depth_image_path, flip=True, is_test=False):
     img_B = load_image(depth_image_path)
     img_B = np.array(img_B)/127.5 - 1.
     img_AB = np.concatenate((img_A, img_B), axis=0)
-    # print(min(img_AB))
-    # print(max(img_AB))
     return img_AB
 
 
@@ -82,7 +80,7 @@ def transform(image, npx=64, is_crop=True, resize_w=64):
 
 
 def inverse_transform(images):
-    return (images+1.)/2.
+    return (images+1.)*127.5
 
 
 def center_crop(x, ph, pw=None):

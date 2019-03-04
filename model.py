@@ -75,7 +75,7 @@ class pix2pix(object):
         self.output = self.generator(self.real_preprocessed)
 
         self.g_loss = tf.reduce_mean(tf.nn.l2_loss(self.real_depth - self.output))
-        # self.g_loss
+
         t_vars = tf.trainable_variables()
 
         self.g_vars = [var for var in t_vars if 'g_' in var.name]
@@ -115,7 +115,6 @@ class pix2pix(object):
         init_op = tf.global_variables_initializer()
         self.sess.run(init_op)
 
-        # self.g_sum = tf.summary.merge([self.fake_B_sum, self.g_loss_sum])
         self.writer = tf.summary.FileWriter("./logs", self.sess.graph)
 
         counter = 1
