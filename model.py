@@ -85,7 +85,7 @@ class pix2pix(object):
         self.real_depth = tf.Print(self.real_depth, [self.real_depth],"Hello Janhavi")
 
     def load_random_samples(self):
-        preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/practise/preprocessed/*.png'), self.batch_size)
+        preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/NYU/preprocessed/*.png'), self.batch_size)
         depth_data = [path.replace('preprocessed', 'depths') for path in preprocessed_data]
         data = list(zip(preprocessed_data, depth_data))
         sample = [load_data(sample_file[0], sample_file[1]) for sample_file in data]
@@ -126,8 +126,8 @@ class pix2pix(object):
             print(" [!] Load failed...")
 
         for epoch in xrange(args.epoch):
-            data_pre = sorted(glob('/home/janhavi/Documents/diss/practise/preprocessed/*.png'))
-            data_depth = sorted(glob('/home/janhavi/Documents/diss/practise/depths/*.png'))
+            data_pre = sorted(glob('/home/janhavi/Documents/diss/NYU/preprocessed/*.png'))
+            data_depth = sorted(glob('/home/janhavi/Documents/diss/NYU/depths/*.png'))
             data = list(zip(data_pre, data_depth))
             batch_idxs = min(len(data), args.train_size) // self.batch_size
             print(batch_idxs)
