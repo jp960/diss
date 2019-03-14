@@ -75,6 +75,13 @@ class pix2pix(object):
         self.output = self.generator(self.real_preprocessed)
 
         self.g_loss = tf.reduce_mean(tf.nn.l2_loss(self.real_depth - self.output))
+        # save image reverse DONE
+        # make sure it works for 1
+        # 10 image overfitting
+        # check learning rate
+        # binary cross entropy loss (not tnh cause 0-1 not -1-1)
+        # read on how to use tensorboard
+
 
         t_vars = tf.trainable_variables()
 
