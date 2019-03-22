@@ -106,7 +106,8 @@ class pix2pix(object):
             feed_dict={self.real_data: sample_images}
         )
         save_images(samples, depth_images, [self.batch_size, 1],
-                    '/home/janhavi/Documents/diss/train/output10/train_{0}_{1}.png'.format(epoch, idx))
+                    '/home/janhavi/Documents/diss/train/output10/train_{0}_{1}.png'.format(epoch, idx),
+                    '/home/janhavi/Documents/diss/train/output10/train_{0}_{1}.txt'.format(epoch, idx))
         print("[Sample] g_loss: {:.8f}".format(g_loss))
 
     def train(self, args):
@@ -157,7 +158,7 @@ class pix2pix(object):
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, g_loss: %.8f" \
                       % (epoch, idx, batch_idxs, time.time() - start_time, errG))
 
-                if np.mod(counter, 10) == 1:  # change back to 100
+                if np.mod(counter, 5) == 1:  # change back to 100
                     self.sample_model(args.sample_dir, epoch, idx)
                     break
 
