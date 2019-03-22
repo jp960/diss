@@ -40,8 +40,9 @@ def get_image(image_path, image_size, is_crop=True, resize_w=64, is_grayscale = 
     return transform(imread(image_path, is_grayscale), image_size, is_crop, resize_w)
 
 
-def save_images(images, size, image_path):
-    return imsave(inverse_transform(images), size, image_path)
+def save_images(images, depth_images, size, image_path):
+    merged_images = merge(inverse_transform(images), depth_images, size)
+    return imsave(merged_images, image_path)
 
 
 def imread(path, is_grayscale = True):
@@ -55,19 +56,23 @@ def merge_images(images, size):
     return inverse_transform(images)
 
 
-def merge(images, size):
+def merge(images, depth_images, size):
+    zipped = zip(images, depth_images)
     h, w = images.shape[1], images.shape[2]
-    img = np.zeros((h * size[0], w * size[1], 3))
-    for idx, image in enumerate(images):
+    img = np.zeros((h * size[0], w * size[1] * 3, 3))
+    for idx, image in enumerate(zipped):
+        diff = image[1] - image[0]
+        ssd = np.sum(np.sum(diff))
         i = idx % size[1]
         j = idx // size[1]
-        img[j*h:j*h+h, i*w:i*w+w, :] = image
-
+        img[j*h:j*h+h, i*w:i*w+w, :] = image[0]
+        img[j*h:j*h+h, i*w+w:i*w+w+w, :] = image[1]
+        img[j*h:j*h+h, i*w+w+w:i*w+w+w+w, :] = diff
     return img
 
 
-def imsave(images, size, path):
-    return scipy.misc.imsave(path, merge(images, size))
+def imsave(images, path):
+    return scipy.misc.imsave(path, images)
 
 
 def transform(image, npx=64, is_crop=True, resize_w=64):

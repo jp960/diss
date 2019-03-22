@@ -85,8 +85,9 @@ class pix2pix(object):
 
     def load_random_samples(self):
         preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/practise10/preprocessed/*.png'),
-                                             self.batch_size)
+                                             self.sample_size)
         depth_data = [path.replace('preprocessed', 'depths') for path in preprocessed_data]
+        depth_images = [load_image(path) for path in depth_data]
         data = list(zip(preprocessed_data, depth_data))
         sample = [load_data(sample_file[0], sample_file[1]) for sample_file in data]
 
@@ -94,17 +95,15 @@ class pix2pix(object):
             sample_images = np.array(sample).astype(np.float32)[:, :, :, None]
         else:
             sample_images = np.array(sample).astype(np.float32)
-        print(sample_images.shape)  # remove this
-        return sample_images
+        return sample_images, depth_images
 
     def sample_model(self, sample_dir, epoch, idx):
-        sample_images = self.load_random_samples()
+        sample_images, depth_images = self.load_random_samples()
         samples, g_loss = self.sess.run(
             [self.output, self.g_loss],
             feed_dict={self.real_data: sample_images}
         )
-        print([self.batch_size, 1])
-        save_images(samples, [self.batch_size, 1],
+        save_images(samples, depth_images, [self.sample_size, 1],
                     '/home/janhavi/Documents/diss/train/output10/train_{0}_{1}.png'.format(epoch, idx))
         print("[Sample] g_loss: {:.8f}".format(g_loss))
 
@@ -157,8 +156,9 @@ class pix2pix(object):
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, g_loss: %.8f" \
                       % (epoch, idx, batch_idxs, time.time() - start_time, errG))
 
-                if np.mod(counter, 100) == 1:  # change back to 100
+                if np.mod(counter, 1) == 1:  # change back to 100
                     self.sample_model(args.sample_dir, epoch, idx)
+                    break
 
                 if np.mod(counter, 500) == 2:
                     self.save(args.checkpoint_dir, counter)
