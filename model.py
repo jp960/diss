@@ -62,12 +62,15 @@ class pix2pix(object):
 
         self.dataset_name = dataset_name
         self.checkpoint_dir = checkpoint_dir
-        self.real_data = tf.placeholder(tf.float32,
-                                        [self.batch_size, self.image_size * 2, self.image_size, 1],
-                                        name='real_A_and_B_images')
+        # self.real_data = tf.placeholder(tf.float32,
+        #                                 [self.batch_size, self.image_size * 2, self.image_size, 1],
+        #                                 name='real_A_and_B_images')
         self.build_model()
 
     def build_model(self):
+        self.real_data = tf.placeholder(tf.float32,
+                                        [self.batch_size, self.image_size * 2, self.image_size, 1],
+                                        name='real_A_and_B_images')
 
         self.real_preprocessed = self.real_data[:, :256, :, :]
         self.real_depth = self.real_data[:, 256:, :, :]
@@ -101,9 +104,9 @@ class pix2pix(object):
 
     def sample_model(self, sample_dir, epoch, idx):
         sample_images, depth_images = self.load_random_samples()
-        self.real_data = tf.placeholder(tf.float32,
-                                        [self.sample_size, self.image_size * 2, self.image_size, 1],
-                                        name='real_A_and_B_images')
+        # self.real_data = tf.placeholder(tf.float32,
+        #                                 [self.sample_size, self.image_size * 2, self.image_size, 1],
+        #                                 name='real_A_and_B_images')
         samples, g_loss = self.sess.run(
             [self.output, self.g_loss],
             feed_dict={self.real_data: sample_images}
