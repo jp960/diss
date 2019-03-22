@@ -129,7 +129,7 @@ class pix2pix(object):
             print(" [!] Load failed...")
 
         for epoch in xrange(args.epoch):
-            data_pre = sorted(glob('/home/janhavi/Documents/diss/pactise10/preprocessed/*.png'))
+            data_pre = sorted(glob('/home/janhavi/Documents/diss/practise10/preprocessed/*.png'))
             data_depth = sorted(glob('/home/janhavi/Documents/diss/practise10/depths/*.png'))
             data = list(zip(data_pre, data_depth))
             batch_idxs = min(len(data), args.train_size) // self.batch_size
