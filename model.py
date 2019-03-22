@@ -87,16 +87,16 @@ class pix2pix(object):
         preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/practise10/preprocessed/*.png'),
                                              self.sample_size)
         depth_data = [path.replace('preprocessed', 'depths') for path in preprocessed_data]
-        depth_images = [load_image(path) for path in depth_data]
+        depth_images_raw = [load_image(path) for path in depth_data]
         data = list(zip(preprocessed_data, depth_data))
         sample = [load_data(sample_file[0], sample_file[1]) for sample_file in data]
 
         if self.is_grayscale:
             sample_images = np.array(sample).astype(np.float32)[:, :, :, None]
+            depth_images = np.array(depth_images_raw).astype(np.float32)[:, :, :, None]
         else:
             sample_images = np.array(sample).astype(np.float32)
-        print(sample_images.shape)
-        print(depth_images.shape)
+            depth_images = np.array(depth_images_raw).astype(np.float32)
         return sample_images, depth_images
 
     def sample_model(self, sample_dir, epoch, idx):
