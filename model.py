@@ -95,6 +95,8 @@ class pix2pix(object):
             sample_images = np.array(sample).astype(np.float32)[:, :, :, None]
         else:
             sample_images = np.array(sample).astype(np.float32)
+        print(sample_images.shape)
+        print(depth_images.shape)
         return sample_images, depth_images
 
     def sample_model(self, sample_dir, epoch, idx):
@@ -130,7 +132,6 @@ class pix2pix(object):
             data_depth = sorted(glob('/home/janhavi/Documents/diss/practise10/depths/*.png'))
             data = list(zip(data_pre, data_depth))
             batch_idxs = min(len(data), args.train_size) // self.batch_size
-            print(batch_idxs)
             for idx in xrange(0, batch_idxs):
                 batch_files = data[idx * self.batch_size:(idx + 1) * self.batch_size]
                 batch = [load_data(batch_file[0], batch_file[1]) for batch_file in batch_files]
