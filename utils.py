@@ -68,7 +68,7 @@ def merge(images, depth_images, size):
     losses = []
     for idx, image in enumerate(zipped):
         diff = image[1] - image[0]
-        losses.append(np.sum(np.sum(diff)))
+        losses.append(np.sum(np.sum(diff))**2)
         i = idx % size[1]
         j = idx // size[1]
         img[j*h:j*h+h, i*w:i*w+w, :] = image[0]
