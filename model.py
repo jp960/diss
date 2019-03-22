@@ -62,6 +62,9 @@ class pix2pix(object):
 
         self.dataset_name = dataset_name
         self.checkpoint_dir = checkpoint_dir
+        self.real_data = tf.placeholder(tf.float32,
+                                        [self.batch_size, self.image_size * 2, self.image_size, 1],
+                                        name='real_A_and_B_images')
         self.build_model()
 
     def build_model(self):
@@ -140,10 +143,6 @@ class pix2pix(object):
                     batch_images = np.array(batch).astype(np.float32)[:, :, :, None]
                 else:
                     batch_images = np.array(batch).astype(np.float32)
-
-                self.real_data = tf.placeholder(tf.float32,
-                                                [self.batch_size, self.image_size * 2, self.image_size, 1],
-                                                name='real_A_and_B_images')
 
                 # Update G network
                 _, errG = self.sess.run([g_optim, self.g_loss],
