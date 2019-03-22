@@ -61,19 +61,23 @@ def merge_images(images, size):
     return inverse_transform(images)
 
 
+def get_loss(ground_truth, generated):
+    diff = ground_truth - generated
+    return np.sqrt(np.mean(diff ** 2))
+
+
 def merge(images, depth_images, size):
     zipped = zip(images, depth_images)
     h, w = images.shape[1], images.shape[2]
     img = np.zeros((h * size[0], w * size[1] * 3, 3))
     losses = []
     for idx, image in enumerate(zipped):
-        diff = image[1] - image[0]
-        losses.append(np.sum(np.sum(diff))**2)
+        losses.append(get_loss(image[1], image[0]))  # loss
         i = idx % size[1]
         j = idx // size[1]
         img[j*h:j*h+h, i*w:i*w+w, :] = image[0]
         img[j*h:j*h+h, i*w+w:i*w+w+w, :] = image[1]
-        img[j*h:j*h+h, i*w+w+w:i*w+w+w+w, :] = diff
+        img[j*h:j*h+h, i*w+w+w:i*w+w+w+w, :] = image[1] - image[0]
     return img, losses
 
 

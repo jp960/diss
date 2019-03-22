@@ -65,9 +65,6 @@ class pix2pix(object):
         self.build_model()
 
     def build_model(self):
-        self.real_data = tf.placeholder(tf.float32,
-                                        [self.batch_size, self.image_size * 2, self.image_size, 1],
-                                        name='real_A_and_B_images')
 
         self.real_preprocessed = self.real_data[:, :256, :, :]
         self.real_depth = self.real_data[:, 256:, :, :]
@@ -85,7 +82,7 @@ class pix2pix(object):
 
     def load_random_samples(self):
         preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/practise10/preprocessed/*.png'),
-                                             self.batch_size)
+                                             self.sample_size)
         depth_data = [path.replace('preprocessed', 'depths') for path in preprocessed_data]
         depth_images_raw = [load_image(path) for path in depth_data]
         data = list(zip(preprocessed_data, depth_data))
@@ -101,13 +98,16 @@ class pix2pix(object):
 
     def sample_model(self, sample_dir, epoch, idx):
         sample_images, depth_images = self.load_random_samples()
+        self.real_data = tf.placeholder(tf.float32,
+                                        [self.sample_size, self.image_size * 2, self.image_size, 1],
+                                        name='real_A_and_B_images')
         samples, g_loss = self.sess.run(
             [self.output, self.g_loss],
             feed_dict={self.real_data: sample_images}
         )
         save_images(samples, depth_images, [self.batch_size, 1],
-                    '/home/janhavi/Documents/diss/train/output10/train_{0}_{1}.png'.format(epoch, idx),
-                    '/home/janhavi/Documents/diss/train/output10/train_{0}_{1}.txt'.format(epoch, idx))
+                    '/home/janhavi/Documents/diss/train/output10/train_{0}_{1}.png'.format(epoch, int(g_loss)),
+                    '/home/janhavi/Documents/diss/train/output10/train_{0}_{1}.txt'.format(epoch, int(g_loss)))
         print("[Sample] g_loss: {:.8f}".format(g_loss))
 
     def train(self, args):
@@ -141,18 +141,13 @@ class pix2pix(object):
                 else:
                     batch_images = np.array(batch).astype(np.float32)
 
+                self.real_data = tf.placeholder(tf.float32,
+                                                [self.batch_size, self.image_size * 2, self.image_size, 1],
+                                                name='real_A_and_B_images')
+
                 # Update G network
                 _, errG = self.sess.run([g_optim, self.g_loss],
                                         feed_dict={self.real_data: batch_images})
-                # print(self.real_data)
-                # self.writer.add_summary(summary_str, counter)
-
-                # Run g_optim twice to make sure that d_loss does not go to zero (different from paper)
-                # _, summary_str = self.sess.run([g_optim, self.g_sum],
-                #                                feed_dict={self.real_data: batch_images})
-                # self.writer.add_summary(summary_str, counter)
-
-                # errG = self.g_loss.eval({self.real_data: batch_images})
 
                 counter += 1
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, g_loss: %.8f" \
