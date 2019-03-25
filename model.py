@@ -105,7 +105,7 @@ class pix2pix(object):
             [self.output, self.g_loss],
             feed_dict={self.real_data: sample_images}
         )
-        save_images(samples, depth_images, [self.sample_size, 1],
+        save_images(samples, depth_images, [self.sampl  e_size, 1],
                     '/home/janhavi/Documents/diss/train/output1449_32_1000_0001/train_{0}_{1}.png'.format(epoch, int(g_loss)),
                     '/home/janhavi/Documents/diss/train/output1449_32_1000_0001/train_{0}_{1}.txt'.format(epoch, int(g_loss)))
         print("[Sample] g_loss: {:.8f}".format(g_loss))
@@ -132,8 +132,11 @@ class pix2pix(object):
             data_pre = sorted(glob('/home/janhavi/Documents/diss/NYU/preprocessed/*.png'))
             data_depth = sorted(glob('/home/janhavi/Documents/diss/NYU/depths/*.png'))
             data = list(zip(data_pre, data_depth))
-
+            print(len(data))
+            print(args.train_size)
+            print(self.batch_size)
             batch_idxs = min(len(data), args.train_size) // self.batch_size
+            print(batch_idxs)
             for idx in xrange(0, batch_idxs):
                 batch_files = data[idx * self.batch_size:(idx + 1) * self.batch_size]
                 batch = [load_data(batch_file[0], batch_file[1]) for batch_file in batch_files]
@@ -150,7 +153,7 @@ class pix2pix(object):
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, g_loss: %.8f" \
                       % (epoch, idx, batch_idxs, time.time() - start_time, errG))
 
-                if np.mod(counter, 5) == 1:  # change back to 100
+                if np.mod(counter, 100) == 1:  # change back to 100
                     self.sample_model(args.sample_dir, epoch, idx)
                     break
 
