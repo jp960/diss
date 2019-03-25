@@ -138,7 +138,7 @@ class pix2pix(object):
             data = list(zip(data_pre, data_depth))
             batch_idxs = min(len(data), args.train_size) // self.sample_size
             for idx in xrange(0, batch_idxs):
-                batch_files = data[idx * self.sample_size:(idx + 1) * self.batch_size]
+                batch_files = data[idx * self.sample_size:(idx + 1) * self.sample_size]
                 batch = [load_data(batch_file[0], batch_file[1]) for batch_file in batch_files]
                 if (self.is_grayscale):
                     batch_images = np.array(batch).astype(np.float32)[:, :, :, None]
