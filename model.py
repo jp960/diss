@@ -69,7 +69,7 @@ class pix2pix(object):
 
     def build_model(self):
         self.real_data = tf.placeholder(tf.float32,
-                                        [self.batch_size, self.image_size * 2, self.image_size, 1],
+                                        [tf.float32, self.image_size * 2, self.image_size, 1],
                                         name='real_A_and_B_images')
 
         self.real_preprocessed = self.real_data[:, :256, :, :]
@@ -89,6 +89,8 @@ class pix2pix(object):
     def load_random_samples(self):
         preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/practise10/preprocessed/*.png'),
                                              self.batch_size)
+        print(self.batch_size)
+        print(self.sample_size)
         depth_data = [path.replace('preprocessed', 'depths') for path in preprocessed_data]
         depth_images_raw = [load_image(path) for path in depth_data]
         data = list(zip(preprocessed_data, depth_data))
