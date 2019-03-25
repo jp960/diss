@@ -11,7 +11,7 @@ parser.add_argument('--dataset_name', dest='dataset_name', default='facades', he
 parser.add_argument('--epoch', dest='epoch', type=int, default=200, help='# of epoch')
 parser.add_argument('--batch_size', dest='batch_size', type=int, default=10, help='# images in batch')
 parser.add_argument('--sample_size', dest='sample_size', type=int, default=5, help='# images when sampling')
-parser.add_argument('--train_size', dest='train_size', type=int, default=10, help='# images used to train')
+parser.add_argument('--train_size', dest='train_size', type=int, default=1449, help='# images used to train')
 parser.add_argument('--load_size', dest='load_size', type=int, default=286, help='scale images to this size')
 parser.add_argument('--fine_size', dest='fine_size', type=int, default=256, help='then crop to this size')
 parser.add_argument('--ngf', dest='ngf', type=int, default=64, help='# of gen filters in first conv layer')

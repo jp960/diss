@@ -84,12 +84,8 @@ class pix2pix(object):
         self.saver = tf.train.Saver()
 
     def load_random_samples(self):
-        preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/practise10/preprocessed/*.png'),
-                                             self.sample_size)
-        print(self.batch_size)
-        print(type(self.batch_size))
-        print(self.sample_size)
-        print(type(self.sample_size))
+        preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/NYU/preprocessed/*.png'),
+                                             self.batch_size)
         depth_data = [path.replace('preprocessed', 'depths') for path in preprocessed_data]
         depth_images_raw = [load_image(path) for path in depth_data]
         data = list(zip(preprocessed_data, depth_data))
@@ -109,9 +105,9 @@ class pix2pix(object):
             [self.output, self.g_loss],
             feed_dict={self.real_data: sample_images}
         )
-        save_images(samples, depth_images, [self.sample_size, 1],
-                    '/home/janhavi/Documents/diss/train/output10/train_{0}_{1}.png'.format(epoch, int(g_loss)),
-                    '/home/janhavi/Documents/diss/train/output10/train_{0}_{1}.txt'.format(epoch, int(g_loss)))
+        save_images(samples, depth_images, [self.batch_size, 1],
+                    '/home/janhavi/Documents/diss/train/output1449_0001/train_{0}_{1}.png'.format(epoch, int(g_loss)),
+                    '/home/janhavi/Documents/diss/train/output1449_0001/train_{0}_{1}.txt'.format(epoch, int(g_loss)))
         print("[Sample] g_loss: {:.8f}".format(g_loss))
 
     def train(self, args):
@@ -133,8 +129,8 @@ class pix2pix(object):
             print(" [!] Load failed...")
 
         for epoch in xrange(args.epoch):
-            data_pre = sorted(glob('/home/janhavi/Documents/diss/practise10/preprocessed/*.png'))
-            data_depth = sorted(glob('/home/janhavi/Documents/diss/practise10/depths/*.png'))
+            data_pre = sorted(glob('/home/janhavi/Documents/diss/NYU/preprocessed/*.png'))
+            data_depth = sorted(glob('/home/janhavi/Documents/diss/NYU/depths/*.png'))
             data = list(zip(data_pre, data_depth))
             batch_idxs = min(len(data), args.train_size) // self.batch_size
             for idx in xrange(0, batch_idxs):
@@ -153,7 +149,7 @@ class pix2pix(object):
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, g_loss: %.8f" \
                       % (epoch, idx, batch_idxs, time.time() - start_time, errG))
 
-                if np.mod(counter, 5) == 1:  # change back to 100
+                if np.mod(counter, 100) == 1:  # change back to 100
                     self.sample_model(args.sample_dir, epoch, idx)
                     break
 
