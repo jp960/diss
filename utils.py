@@ -61,6 +61,7 @@ def merge_images(images, size):
     return inverse_transform(images)
 
 
+#  Should be a mean over a batch not per image because that's too noisy
 def get_loss(ground_truth, generated):
     diff = ground_truth - generated
     return np.sqrt(np.mean(diff ** 2))
