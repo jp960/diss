@@ -105,8 +105,8 @@ class pix2pix(object):
             feed_dict={self.real_data: sample_images}
         )
         save_images(samples, depth_images, [self.sample_size, 1],
-                    '/home/janhavi/Documents/diss/train/output1449_24_1500_00005/train_{0}_{1}.png'.format(epoch, int(g_loss)),
-                    '/home/janhavi/Documents/diss/train/output1449_24_1500_00005/train_{0}_{1}.txt'.format(epoch, int(g_loss)))
+                    '/home/janhavi/Documents/diss/train/output1449_24_1500_0001/train_{0}_{1}.png'.format(epoch, int(g_loss)),
+                    '/home/janhavi/Documents/diss/train/output1449_24_1500_0001/train_{0}_{1}.txt'.format(epoch, int(g_loss)))
         print("[Sample] g_loss: {:.8f}".format(g_loss))
 
     def train(self, args):
