@@ -3,13 +3,9 @@ Some codes from https://github.com/Newmu/dcgan_code
 """
 from __future__ import division
 import math
-import json
-import random
 import pprint
 import scipy.misc
-import tensorflow as tf
 import numpy as np
-from time import gmtime, strftime
 
 pp = pprint.PrettyPrinter()
 
@@ -40,13 +36,10 @@ def get_image(image_path, image_size, is_crop=True, resize_w=64, is_grayscale = 
     return transform(imread(image_path, is_grayscale), image_size, is_crop, resize_w)
 
 
-def save_images(images, depth_images, size, image_path, loss_path):
-    merged_images, losses = merge(inverse_transform(images), depth_images, size)
-    f = open(loss_path, "w+")
-    for loss in losses:
-        f.write(str(loss))
-        f.writelines("\n")
-    f.close()
+def save_images(images, depth_images, size, epoch, g_loss):
+    merged_images, loss = merge(inverse_transform(images), depth_images, size)
+    image_path = '/home/janhavi/Documents/diss/train/outputSUNRGBD_24_1500_0001/' \
+                 'train_%d_%.2f_%.2f.png'.format(epoch, g_loss, loss)
     return imsave(merged_images, image_path)
 
 
@@ -62,24 +55,27 @@ def merge_images(images, size):
 
 
 #  Should be a mean over a batch not per image because that's too noisy
-def get_loss(ground_truth, generated):
-    diff = ground_truth - generated
-    return np.sqrt(np.mean(diff ** 2))
+def get_loss(zipped):
+    diffs = []
+    for pair in enumerate(zipped):
+        diff = pair[1] - pair[0]
+        diffs.append(diff ** 2)
+    l2_loss = np.sum(diffs)
+    return np.mean(l2_loss)
 
 
 def merge(images, depth_images, size):
     zipped = zip(images, depth_images)
     h, w = images.shape[1], images.shape[2]
     img = np.zeros((h * size[0], w * size[1] * 3, 3))
-    losses = []
+    loss = get_loss(zipped)
     for idx, image in enumerate(zipped):
-        losses.append(get_loss(image[1], image[0]))  # loss
         i = idx % size[1]
         j = idx // size[1]
         img[j*h:j*h+h, i*w:i*w+w, :] = image[0]
         img[j*h:j*h+h, i*w+w:i*w+w+w, :] = image[1]
         img[j*h:j*h+h, i*w+w+w:i*w+w+w+w, :] = image[1] - image[0]
-    return img, losses
+    return img, loss
 
 
 def imsave(images, path):
