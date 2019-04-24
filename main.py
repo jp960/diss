@@ -46,7 +46,11 @@ def main(_):
     if not os.path.exists(args.test_dir):
         os.makedirs(args.test_dir)
 
-    with tf.Session() as sess:
+    config = tf.ConfigProto(
+        device_count={'GPU': 0}
+    )
+
+    with tf.Session(config=config) as sess:
         model = pix2pix(sess, image_size=args.fine_size, batch_size=args.batch_size, sample_size=args.sample_size,
                         output_size=args.fine_size, dataset_name=args.dataset_name,
                         checkpoint_dir=args.checkpoint_dir, sample_dir=args.sample_dir)
