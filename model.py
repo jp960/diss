@@ -146,11 +146,11 @@ class pix2pix(object):
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, g_loss: %.8f" \
                       % (epoch, idx, batch_idxs, time.time() - start_time, errG))
 
-                if np.mod(counter, 5) == 1:  # change back to 100
+                if np.mod(counter, 2050) == 1:  # change back to 100
                     self.sample_model(args.sample_dir, epoch, idx)
                     break
 
-                if np.mod(counter, 3000) == 2:
+                if np.mod(counter, 4100) == 2:
                     self.save(args.checkpoint_dir, counter)
 
     def generator(self, image, y=None):
