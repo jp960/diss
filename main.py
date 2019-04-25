@@ -46,7 +46,7 @@ def main(_):
         os.makedirs(args.test_dir)
 
     config = tf.ConfigProto(
-        device_count={'GPU': 0}
+        # device_count={'GPU': 0}
     )
     config.gpu_options.allow_growth = True
 
