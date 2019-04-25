@@ -44,7 +44,7 @@ def main(_):
         os.makedirs(args.sample_dir)
     if not os.path.exists(args.test_dir):
         os.makedirs(args.test_dir)
-    if not os.path.exists(args.destdr):
+    if not os.path.exists('./train/{0}'.format(args.destdr)):
         os.makedirs('./train/{0}'.format(args.destdr))
 
     config = tf.ConfigProto(
