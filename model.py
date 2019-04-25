@@ -76,7 +76,6 @@ class pix2pix(object):
 
         self.g_loss = tf.reduce_mean(tf.nn.l2_loss(self.real_depth - self.output))
 
-
         t_vars = tf.trainable_variables()
 
         self.g_vars = [var for var in t_vars if 'g_' in var.name]
@@ -127,8 +126,8 @@ class pix2pix(object):
             print(" [!] Load failed...")
 
         for epoch in xrange(args.epoch):
-            data_pre = sorted(glob('/home/janhavi/Documents/diss/SUNRGBD/NYU/*.png'))
-            data_depth = sorted(glob('/home/janhavi/Documents/diss/SUNRGBD/NYU/*.png'))
+            data_pre = sorted(glob('/home/janhavi/Documents/diss/NYU/preprocessed/*.png'))
+            data_depth = sorted(glob('/home/janhavi/Documents/diss/NYU/depths/*.png'))
             data = list(zip(data_pre, data_depth))
             batch_idxs = min(len(data), args.train_size) // self.batch_size
             for idx in xrange(0, batch_idxs):
