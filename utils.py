@@ -39,7 +39,7 @@ def get_image(image_path, image_size, is_crop=True, resize_w=64, is_grayscale = 
 
 def save_images(images, depth_images, size, epoch, g_loss, destdr):
     merged_images, loss = merge(inverse_transform(images), depth_images, size)
-    image_path = '/home/janhavi/Documents/diss/train/{0}/' \
+    image_path = './train/{0}/' \
                  'train_{1}_{2:.2f}_{3:.2f}.png'.format(destdr, epoch, g_loss, loss)
     return imsave(merged_images, image_path)
 
