@@ -83,7 +83,7 @@ class pix2pix(object):
         self.saver = tf.train.Saver()
 
     def load_random_samples(self):
-        preprocessed_data = np.random.choice(glob('/home/janhavi/Documents/diss/SUNRGBD/preprocessed/*.png'),
+        preprocessed_data = np.random.choice(glob('./{0}/preprocessed/*.png'.format(self.dataset_name)),
                                              self.sample_size)
         depth_data = [path.replace('preprocessed', 'depths') for path in preprocessed_data]
         depth_images_raw = [load_image(path) for path in depth_data]
@@ -105,7 +105,7 @@ class pix2pix(object):
             feed_dict={self.real_data: sample_images}
         )
         save_images(samples, depth_images, [self.sample_size, 1], epoch, g_loss, self.destdr)
-        print("[Sample] g_loss: {:.8f}".format(g_loss))
+        print("[Sample] g_loss: {:.8f}".format(g_loss), flush=True)
 
     def train(self, args):
         """Train pix2pix"""
@@ -121,13 +121,13 @@ class pix2pix(object):
         start_time = time.time()
 
         if self.load(self.checkpoint_dir):
-            print(" [*] Load SUCCESS")
+            print(" [*] Load SUCCESS", flush=True)
         else:
-            print(" [!] Load failed...")
+            print(" [!] Load failed...", flush=True)
 
         for epoch in xrange(args.epoch):
-            data_pre = sorted(glob('/home/janhavi/Documents/diss/SUNRGBD/preprocessed/*.png'))
-            data_depth = sorted(glob('/home/janhavi/Documents/diss/SUNRGBD/depths/*.png'))
+            data_pre = sorted(glob('./{0}/preprocessed/*.png'.format(self.dataset_name)))
+            data_depth = sorted(glob('./{0}/depths/*.png'.format(self.dataset_name)))
             data = list(zip(data_pre, data_depth))
             batch_idxs = min(len(data), args.train_size) // self.batch_size
             for idx in xrange(0, batch_idxs):
@@ -144,7 +144,7 @@ class pix2pix(object):
 
                 counter += 1
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, g_loss: %.8f" \
-                      % (epoch, idx, batch_idxs, time.time() - start_time, errG))
+                      % (epoch, idx, batch_idxs, time.time() - start_time, errG), flush=True)
 
                 if np.mod(counter, 2050) == 1:  # change back to 100
                     self.sample_model(args.sample_dir, epoch, idx)
@@ -328,7 +328,7 @@ class pix2pix(object):
                         global_step=step)
 
     def load(self, checkpoint_dir):
-        print(" [*] Reading checkpoint...")
+        print(" [*] Reading checkpoint...", flush=True)
 
         model_dir = "%s_%s_%s" % (self.dataset_name, self.batch_size, self.output_size)
         checkpoint_dir = os.path.join(checkpoint_dir, model_dir)

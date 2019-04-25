@@ -1,17 +1,15 @@
 import argparse
 import os
-import scipy.misc
-import numpy as np
 
 from model import pix2pix
 import tensorflow as tf
 
 parser = argparse.ArgumentParser(description='')
-parser.add_argument('--dataset_name', dest='dataset_name', default='facades', help='name of the dataset')
+parser.add_argument('--dataset_name', dest='dataset_name', default='SUNRGBD', help='name of the dataset')
 parser.add_argument('--epoch', dest='epoch', type=int, default=200, help='# of epoch')
 parser.add_argument('--batch_size', dest='batch_size', type=int, default=24, help='# images in batch')
 parser.add_argument('--sample_size', dest='sample_size', type=int, default=5, help='# images when sampling')
-parser.add_argument('--train_size', dest='train_size', type=int, default=4934, help='# images used to train')
+parser.add_argument('--train_size', dest='train_size', type=int, default=500, help='# images used to train')
 parser.add_argument('--load_size', dest='load_size', type=int, default=286, help='scale images to this size')
 parser.add_argument('--fine_size', dest='fine_size', type=int, default=256, help='then crop to this size')
 parser.add_argument('--ngf', dest='ngf', type=int, default=64, help='# of gen filters in first conv layer')
@@ -48,7 +46,7 @@ def main(_):
         os.makedirs(args.test_dir)
 
     config = tf.ConfigProto(
-        # device_count={'GPU': 0}
+        device_count={'GPU': 0}
     )
     config.gpu_options.allow_growth = True
 
