@@ -44,11 +44,13 @@ def main(_):
         os.makedirs(args.sample_dir)
     if not os.path.exists(args.test_dir):
         os.makedirs(args.test_dir)
+    if not os.path.exists(args.destdr):
+        os.makedirs('./train/{0}'.format(args.destdr))
 
     config = tf.ConfigProto(
         # device_count={'GPU': 0}
     )
-    # config.gpu_options.allow_growth = True
+    config.gpu_options.allow_growth = True
 
     with tf.Session(config=config) as sess:
         model = pix2pix(sess, image_size=args.fine_size, batch_size=args.batch_size, sample_size=args.sample_size,
