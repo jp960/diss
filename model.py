@@ -15,7 +15,7 @@ class pix2pix(object):
                  batch_size=1, sample_size=1, output_size=256,
                  gf_dim=64, df_dim=64, L1_lambda=100,
                  input_c_dim=1, output_c_dim=1, dataset_name='facades',
-                 checkpoint_dir=None, sample_dir=None):
+                 checkpoint_dir=None, sample_dir=None, destdr=None):
         """
         Args:
             sess: TensorFlow session
@@ -61,6 +61,7 @@ class pix2pix(object):
 
         self.dataset_name = dataset_name
         self.checkpoint_dir = checkpoint_dir
+        self.destdr = destdr
         self.build_model()
 
     def build_model(self):
@@ -104,7 +105,7 @@ class pix2pix(object):
             [self.output, self.g_loss],
             feed_dict={self.real_data: sample_images}
         )
-        save_images(samples, depth_images, [self.sample_size, 1], epoch, g_loss)
+        save_images(samples, depth_images, [self.sample_size, 1], epoch, g_loss, self.destdr)
         print("[Sample] g_loss: {:.8f}".format(g_loss))
 
     def train(self, args):

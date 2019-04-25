@@ -37,10 +37,10 @@ def get_image(image_path, image_size, is_crop=True, resize_w=64, is_grayscale = 
     return transform(imread(image_path, is_grayscale), image_size, is_crop, resize_w)
 
 
-def save_images(images, depth_images, size, epoch, g_loss):
+def save_images(images, depth_images, size, epoch, g_loss, destdr):
     merged_images, loss = merge(inverse_transform(images), depth_images, size)
-    image_path = '/home/janhavi/Documents/diss/train/outputSUNRGBD_24_1500_00005/' \
-                 'train_{0}_{1:.2f}_{2:.2f}.png'.format(epoch, g_loss, loss)
+    image_path = '/home/janhavi/Documents/diss/train/{0}/' \
+                 'train_{1}_{2:.2f}_{3:.2f}.png'.format(destdr, epoch, g_loss, loss)
     return imsave(merged_images, image_path)
 
 
@@ -55,14 +55,13 @@ def merge_images(images, size):
     return inverse_transform(images)
 
 
-#  Should be a mean over a batch not per image because that's too noisy
 def get_loss(zipped):
     diffs = []
     for idx, pair in enumerate(zipped):
         diff = pair[1][:, :, 0] - pair[0][:, :, 0]
         diffs.append(diff ** 2)
     l2_loss = np.sum(diffs)
-    return np.mean(l2_loss)
+    return np.mean(l2_loss) / (256.0 * 256.0)
 
 
 def merge(images, depth_images, size):
@@ -74,14 +73,9 @@ def merge(images, depth_images, size):
     for idx, image in enumerate(zipped):
         i = idx % size[1]
         j = idx // size[1]
-        # plt.subplot(2, 5, count), plt.imshow(image[0][:, :, 0], cmap='gray')
-        # count += 1
-        # plt.subplot(2, 5, count), plt.imshow(image[1][:, :, 0], cmap='gray')
-        # count += 1
         img[j*h:j*h+h, i*w:i*w+w, :] = image[0]
         img[j*h:j*h+h, i*w+w:i*w+w+w, :] = image[1]
         img[j*h:j*h+h, i*w+w+w:i*w+w+w+w, :] = image[1] - image[0]
-    # plt.show()
     return img, loss
 
 
