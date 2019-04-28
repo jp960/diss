@@ -4,7 +4,7 @@ def get_data():
     all_epochs = list(str())
     sample_epochs = list()
     for line in lines:
-        ind = lines.index(line)
+        # ind = lines.index(line)
         if line != "1!" and line != " [*] Reading checkpoint..." and line != " [*] Load SUCCESS" and line != "(1, 512, 256, 1)":
             bits = line.split(":")
             if bits[0] == "Epoch":
