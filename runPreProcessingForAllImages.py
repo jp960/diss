@@ -47,7 +47,3 @@ if __name__ == '__main__':
             cv2.imwrite(depths_dir+img_name+".png", resized_depth_image)
         else:
             print(os.path.join(img_dir+folder+"/depth_bfx/"))
-
-    # image = cv2.imread("/home/janhavi/Documents/Final Year/DISS/data/SUNRGBD/kv1/NYUdata/NYU0010/image/NYU0010.jpg", 1)
-    # resized_image = cv2.resize(image, (256, 256))
-    # cv2.imwrite("/home/janhavi/Documents/Final Year/DISS/data/image.png", resized_image)
