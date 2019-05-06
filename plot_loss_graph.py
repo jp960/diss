@@ -4,6 +4,22 @@ import re
 import numpy as np
 from matplotlib import pyplot as plt
 from six.moves import xrange
+from glob import glob
+
+
+def extract_test_data():
+    files = sorted(glob('/home/janhavi/Documents/Final Year/DISS/data/results/test/*.png'))
+    files = [re.sub("/home/janhavi/Documents/Final Year/DISS/data/results/test/", "", file) for file in files]
+    files = [re.sub(".png", "", file) for file in files]
+    batches = list()
+    losses = list()
+
+    for file in files:
+        split = file.split("_")
+        batches.append(float(split[1]))
+        losses.append(float(split[3]))
+
+    return list(zip(batches, losses))
 
 
 def extract_data(file_path):
@@ -63,6 +79,21 @@ def plot_graph(x, y, xlabel, ylabel, title):
     plt.show()
 
 
+def plot_test_graph(pairs, xlabel, ylabel, title):
+    sorted_pairs = sorted(pairs, key=lambda tup: int(tup[0]))
+    x = list()
+    y = list()
+    [x.append(tup[0]) for tup in sorted_pairs]
+    [y.append(tup[1]) for tup in sorted_pairs]
+
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.plot(x, y)
+    plt.axis([0, max(x), 0, max(y)])
+    plt.show()
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--file_path', dest='file_path')
@@ -71,3 +102,8 @@ if __name__ == '__main__':
     epochs, losses, sample_epochs, sample_losses = extract_data(args.file_path)
     plot_graph(epochs, losses, "Epoch", "Loss", graph_title)
     plot_graph(sample_epochs, sample_losses, "Sample", "Loss", "Sample losses for: \n {0}".format(graph_title))
+    pairs = extract_test_data()
+    plot_test_graph(pairs, "Batch", "Loss", "Testing results of mean loss per batch")
+    epochs, losses = extract_test_data()
+    plot_graph(epochs, losses, "Batch", "Loss", "Testing results of mean loss per batch")
+

@@ -47,3 +47,4 @@ if __name__ == '__main__':
             cv2.imwrite(depths_dir+img_name+".png", resized_depth_image)
         else:
             print(os.path.join(img_dir+folder+"/depth_bfx/"))
+
